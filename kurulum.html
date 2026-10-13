@@ -2,36 +2,27 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>F16 Drone Kurulum</title>
 <script src="lang.js"></script>
-<style>
-  body { margin:0; background:#d9d9d9; font-family:Tahoma, Verdana, Arial, sans-serif; font-size:13px; color:#222; }
-  #wrap { width:940px; margin:15px auto; background:#fff; border:1px solid #999; box-shadow:0 0 8px #888; }
-  #header { background:linear-gradient(#4a7bb7,#1f4e8c); color:#fff; padding:14px 18px; border-bottom:3px solid #f0a30a; }
-  #header h1 { margin:0; font-size:22px; text-shadow:1px 1px 0 #000; }
-  #header .lng { float:left; margin-top:4px; font-size:11px; } [dir=ltr] #header .lng { float:right; }
-  #nav { background:#e8e8e8; border-bottom:1px solid #bbb; padding:0 10px; }
-  #nav a { display:inline-block; padding:7px 14px; color:#1f4e8c; text-decoration:none; font-weight:bold; }
-  #nav a:hover { background:#fff; text-decoration:underline; }
-  #content { padding:15px 25px; line-height:1.7; }
-  h2 { color:#1f4e8c; border-bottom:2px solid #f0a30a; padding-bottom:3px; font-size:17px; }
-  h3 { background:linear-gradient(#6c8ebf,#3d6399); color:#fff; padding:4px 8px; font-size:13px; margin:18px 0 6px; }
-  pre { background:#000; color:#3f3; padding:8px; font:12px "Courier New",monospace; direction:ltr; text-align:left; border:2px inset #999; }
-  table { border-collapse:collapse; } td, th { border:1px solid #bbb; padding:4px 8px; } th { background:#e8e8e8; }
-  .note { background:#ffffcc; border:1px solid #e0d080; padding:6px 10px; }
-  #footer { text-align:center; font-size:11px; color:#666; padding:8px; border-top:1px solid #ccc; background:#f0f0f0; }
-</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div id="wrap">
-  <div id="header">
-    <div class="lng"><span data-t="language"></span> <script>document.write(langSelect())</script></div>
-    <h1>&#9992; F16 Drone — <span data-t="nav_guide"></span></h1>
+<header class="top">
+  <div class="brand">
+    <div class="logo">&#9992;</div>
+    <div><h1>F16 Drone</h1><small data-t="nav_guide"></small></div>
   </div>
-  <div id="nav"><a href="index.html" data-t="nav_home"></a><a href="kurulum.html" data-t="nav_guide"></a></div>
-  <div id="content"></div>
-  <div id="footer" data-t="footer"></div>
-</div>
+  <nav>
+    <a href="index.html" data-t="nav_home"></a>
+    <a href="kurulum.html" class="on" data-t="nav_guide"></a>
+  </nav>
+  <div class="tools"><script>document.write(langSelect())</script></div>
+</header>
+<main class="card doc" id="content"></main>
+<footer class="foot" data-t="footer"></footer>
 
 <script>
 var CMD = '<pre>git clone https://github.com/alsaedisarmad/f16drone.git\ncd f16drone\npython drone.py</pre>';

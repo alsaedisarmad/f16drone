@@ -3,7 +3,7 @@ var LANGS = {ar:'العربية', tr:'Türkçe', en:'English', es:'Español', de
 
 var T = {
 ar: {
-  title:'نظام التحكم بالطائرة المسيّرة', sub:'لوحة تحكم الدرون v1.0 — أفضل عرض بدقة 1024×768',
+  title:'نظام التحكم بالطائرة المسيّرة', sub:'لوحة تحكم الدرون · v2.0',
   nav_home:'الرئيسية', nav_ctrl:'التحكم', nav_map:'الخريطة', nav_guide:'دليل التثبيت', nav_contact:'اتصل بنا',
   welcome:'مرحباً بك في لوحة التحكم — الحالة:', connecting:'جارِ الاتصال...', online:'متصل بالدرون', offline:'غير متصل — محاكاة',
   box_status:'حالة الدرون', motors:'المحركات', flight:'الطيران', alt:'الارتفاع', pos:'الموقع X / Y', heading:'الاتجاه', speed:'السرعة', battery:'البطارية',
@@ -12,7 +12,7 @@ ar: {
   box_basic:'أوامر أساسية', b_arm:'تشغيل المحركات', b_disarm:'إيقاف المحركات', b_takeoff:'إقلاع', b_land:'هبوط', b_home:'عودة',
   box_dir:'التوجيه', yaw:'دوران', forward:'أمام', back:'خلف', right:'يمين', left:'يسار', up:'+ ارتفاع', down:'- ارتفاع',
   keys_hint:'لوحة المفاتيح: W A S D / Q E / R F', estop_btn:'إيقاف طوارئ', box_radar:'الرادار', box_log:'سجل الأحداث',
-  footer:'جميع الحقوق محفوظة © 2015 — تصميم: قسم الهندسة', privacy:'سياسة الخصوصية',
+  footer:'جميع الحقوق محفوظة © 2023 — تصميم: قسم الهندسة', privacy:'سياسة الخصوصية',
   l_ready:'النظام جاهز', l_armed:'تم تشغيل المحركات', l_arm_in_flight:'لا يمكن الإيقاف أثناء الطيران', l_disarmed:'تم إيقاف المحركات',
   l_arm_first:'شغّل المحركات أولاً', l_takeoff:'إقلاع إلى 10 م', l_landing:'جارِ الهبوط', l_on_ground:'الدرون على الأرض',
   l_move:'تحرك:', l_speed:'السرعة =', l_home:'العودة للنقطة الأساسية', l_estop:'!!! إيقاف طوارئ !!!', l_landed:'تم الهبوط', l_low_bat:'بطارية ضعيفة - هبوط تلقائي',
@@ -41,7 +41,7 @@ ar: {
   p_note:"فحص محلي تجريبي، وليس موافقة رسمية من هيئة الطيران"
 },
 tr: {
-  title:'İnsansız Hava Aracı Kontrol Sistemi', sub:'Drone Kontrol Paneli v1.0 — En iyi 1024×768 çözünürlükte görüntülenir',
+  title:'İnsansız Hava Aracı Kontrol Sistemi', sub:'Drone Kontrol Paneli · v2.0',
   nav_home:'Ana Sayfa', nav_ctrl:'Kontrol', nav_map:'Harita', nav_guide:'Kurulum Kılavuzu', nav_contact:'İletişim',
   welcome:'Kontrol paneline hoş geldiniz — Durum:', connecting:'Bağlanıyor...', online:'Drone\'a bağlı', offline:'Bağlı değil — simülasyon',
   box_status:'Drone Durumu', motors:'Motorlar', flight:'Uçuş', alt:'İrtifa', pos:'Konum X / Y', heading:'Yön', speed:'Hız', battery:'Batarya',
@@ -50,7 +50,7 @@ tr: {
   box_basic:'Temel Komutlar', b_arm:'Motorları Çalıştır', b_disarm:'Motorları Durdur', b_takeoff:'Kalkış', b_land:'İniş', b_home:'Eve Dön',
   box_dir:'Yönlendirme', yaw:'Dön', forward:'İleri', back:'Geri', right:'Sağ', left:'Sol', up:'+ İrtifa', down:'- İrtifa',
   keys_hint:'Klavye: W A S D / Q E / R F', estop_btn:'Acil Durdurma', box_radar:'Radar', box_log:'Olay Günlüğü',
-  footer:'Tüm hakları saklıdır © 2015 — Tasarım: Mühendislik Bölümü', privacy:'Gizlilik Politikası',
+  footer:'Tüm hakları saklıdır © 2023 — Tasarım: Mühendislik Bölümü', privacy:'Gizlilik Politikası',
   l_ready:'Sistem hazır', l_armed:'Motorlar çalıştırıldı', l_arm_in_flight:'Uçuş sırasında durdurulamaz', l_disarmed:'Motorlar durduruldu',
   l_arm_first:'Önce motorları çalıştırın', l_takeoff:'10 m\'ye kalkış', l_landing:'İniş yapılıyor', l_on_ground:'Drone yerde',
   l_move:'Hareket:', l_speed:'Hız =', l_home:'Başlangıç noktasına dönüş', l_estop:'!!! ACİL DURDURMA !!!', l_landed:'İniş tamamlandı', l_low_bat:'Düşük batarya - otomatik iniş',
@@ -79,7 +79,7 @@ tr: {
   p_note:"Yerel deneme kontrolüdür, SHGM resmi onayı değildir"
 },
 en: {
-  title:'Unmanned Aerial Vehicle Control System', sub:'Drone Control Panel v1.0 — Best viewed at 1024×768',
+  title:'Unmanned Aerial Vehicle Control System', sub:'Drone Control Panel · v2.0',
   nav_home:'Home', nav_ctrl:'Control', nav_map:'Map', nav_guide:'Setup Guide', nav_contact:'Contact Us',
   welcome:'Welcome to the control panel — Status:', connecting:'Connecting...', online:'Connected to drone', offline:'Offline — simulation',
   box_status:'Drone Status', motors:'Motors', flight:'Flight', alt:'Altitude', pos:'Position X / Y', heading:'Heading', speed:'Speed', battery:'Battery',
@@ -88,7 +88,7 @@ en: {
   box_basic:'Basic Commands', b_arm:'Arm Motors', b_disarm:'Disarm Motors', b_takeoff:'Take off', b_land:'Land', b_home:'Home',
   box_dir:'Navigation', yaw:'Yaw', forward:'Forward', back:'Back', right:'Right', left:'Left', up:'+ Altitude', down:'- Altitude',
   keys_hint:'Keyboard: W A S D / Q E / R F', estop_btn:'Emergency Stop', box_radar:'Radar', box_log:'Event Log',
-  footer:'All rights reserved © 2015 — Design: Engineering Dept.', privacy:'Privacy Policy',
+  footer:'All rights reserved © 2023 — Design: Engineering Dept.', privacy:'Privacy Policy',
   l_ready:'System ready', l_armed:'Motors armed', l_arm_in_flight:'Cannot disarm while flying', l_disarmed:'Motors disarmed',
   l_arm_first:'Arm the motors first', l_takeoff:'Taking off to 10 m', l_landing:'Landing', l_on_ground:'Drone is on the ground',
   l_move:'Move:', l_speed:'Speed =', l_home:'Returning to home point', l_estop:'!!! EMERGENCY STOP !!!', l_landed:'Landed', l_low_bat:'Low battery - auto landing',
@@ -117,7 +117,7 @@ en: {
   p_note:"Local test check only, not an official aviation authority approval"
 },
 es: {
-  title:'Sistema de Control de Vehículo Aéreo No Tripulado', sub:'Panel de Control del Dron v1.0 — Se ve mejor a 1024×768',
+  title:'Sistema de Control de Vehículo Aéreo No Tripulado', sub:'Panel de Control del Dron · v2.0',
   nav_home:'Inicio', nav_ctrl:'Control', nav_map:'Mapa', nav_guide:'Guía de Instalación', nav_contact:'Contacto',
   welcome:'Bienvenido al panel de control — Estado:', connecting:'Conectando...', online:'Conectado al dron', offline:'Sin conexión — simulación',
   box_status:'Estado del Dron', motors:'Motores', flight:'Vuelo', alt:'Altitud', pos:'Posición X / Y', heading:'Rumbo', speed:'Velocidad', battery:'Batería',
@@ -126,7 +126,7 @@ es: {
   box_basic:'Comandos Básicos', b_arm:'Armar Motores', b_disarm:'Desarmar Motores', b_takeoff:'Despegar', b_land:'Aterrizar', b_home:'Volver',
   box_dir:'Navegación', yaw:'Girar', forward:'Adelante', back:'Atrás', right:'Derecha', left:'Izquierda', up:'+ Altitud', down:'- Altitud',
   keys_hint:'Teclado: W A S D / Q E / R F', estop_btn:'Parada de Emergencia', box_radar:'Radar', box_log:'Registro de Eventos',
-  footer:'Todos los derechos reservados © 2015 — Diseño: Dpto. de Ingeniería', privacy:'Política de Privacidad',
+  footer:'Todos los derechos reservados © 2023 — Diseño: Dpto. de Ingeniería', privacy:'Política de Privacidad',
   l_ready:'Sistema listo', l_armed:'Motores armados', l_arm_in_flight:'No se puede desarmar en vuelo', l_disarmed:'Motores desarmados',
   l_arm_first:'Arme los motores primero', l_takeoff:'Despegando a 10 m', l_landing:'Aterrizando', l_on_ground:'El dron está en tierra',
   l_move:'Mover:', l_speed:'Velocidad =', l_home:'Regresando al punto de inicio', l_estop:'!!! PARADA DE EMERGENCIA !!!', l_landed:'Aterrizado', l_low_bat:'Batería baja - aterrizaje automático',
@@ -155,7 +155,7 @@ es: {
   p_note:"Comprobación local de prueba, no es una aprobación oficial de aviación"
 },
 de: {
-  title:'Steuerungssystem für unbemannte Luftfahrzeuge', sub:'Drohnen-Steuerpult v1.0 — Optimiert für 1024×768',
+  title:'Steuerungssystem für unbemannte Luftfahrzeuge', sub:'Drohnen-Steuerpult · v2.0',
   nav_home:'Startseite', nav_ctrl:'Steuerung', nav_map:'Karte', nav_guide:'Installationsanleitung', nav_contact:'Kontakt',
   welcome:'Willkommen im Steuerpult — Status:', connecting:'Verbinde...', online:'Mit Drohne verbunden', offline:'Offline — Simulation',
   box_status:'Drohnenstatus', motors:'Motoren', flight:'Flug', alt:'Höhe', pos:'Position X / Y', heading:'Kurs', speed:'Geschwindigkeit', battery:'Akku',
@@ -164,7 +164,7 @@ de: {
   box_basic:'Grundbefehle', b_arm:'Motoren scharf', b_disarm:'Motoren aus', b_takeoff:'Starten', b_land:'Landen', b_home:'Heim',
   box_dir:'Navigation', yaw:'Drehen', forward:'Vor', back:'Zurück', right:'Rechts', left:'Links', up:'+ Höhe', down:'- Höhe',
   keys_hint:'Tastatur: W A S D / Q E / R F', estop_btn:'Not-Aus', box_radar:'Radar', box_log:'Ereignisprotokoll',
-  footer:'Alle Rechte vorbehalten © 2015 — Design: Technikabteilung', privacy:'Datenschutz',
+  footer:'Alle Rechte vorbehalten © 2023 — Design: Technikabteilung', privacy:'Datenschutz',
   l_ready:'System bereit', l_armed:'Motoren scharf geschaltet', l_arm_in_flight:'Im Flug nicht abschaltbar', l_disarmed:'Motoren abgeschaltet',
   l_arm_first:'Zuerst Motoren scharf schalten', l_takeoff:'Start auf 10 m', l_landing:'Landeanflug', l_on_ground:'Drohne ist am Boden',
   l_move:'Bewegung:', l_speed:'Geschwindigkeit =', l_home:'Rückkehr zum Startpunkt', l_estop:'!!! NOT-AUS !!!', l_landed:'Gelandet', l_low_bat:'Akku schwach - automatische Landung',
@@ -193,7 +193,7 @@ de: {
   p_note:"Nur lokale Testprüfung, keine offizielle Luftfahrtgenehmigung"
 },
 fr: {
-  title:'Système de Contrôle de Drone', sub:'Panneau de Contrôle du Drone v1.0 — Affichage optimal en 1024×768',
+  title:'Système de Contrôle de Drone', sub:'Panneau de Contrôle du Drone · v2.0',
   nav_home:'Accueil', nav_ctrl:'Contrôle', nav_map:'Carte', nav_guide:'Guide d\'installation', nav_contact:'Contact',
   welcome:'Bienvenue sur le panneau de contrôle — État :', connecting:'Connexion...', online:'Connecté au drone', offline:'Hors ligne — simulation',
   box_status:'État du Drone', motors:'Moteurs', flight:'Vol', alt:'Altitude', pos:'Position X / Y', heading:'Cap', speed:'Vitesse', battery:'Batterie',
@@ -202,7 +202,7 @@ fr: {
   box_basic:'Commandes de Base', b_arm:'Armer les moteurs', b_disarm:'Désarmer', b_takeoff:'Décoller', b_land:'Atterrir', b_home:'Retour',
   box_dir:'Navigation', yaw:'Pivoter', forward:'Avant', back:'Arrière', right:'Droite', left:'Gauche', up:'+ Altitude', down:'- Altitude',
   keys_hint:'Clavier : W A S D / Q E / R F', estop_btn:'Arrêt d\'urgence', box_radar:'Radar', box_log:'Journal des événements',
-  footer:'Tous droits réservés © 2015 — Conception : Service Ingénierie', privacy:'Confidentialité',
+  footer:'Tous droits réservés © 2023 — Conception : Service Ingénierie', privacy:'Confidentialité',
   l_ready:'Système prêt', l_armed:'Moteurs armés', l_arm_in_flight:'Impossible de désarmer en vol', l_disarmed:'Moteurs désarmés',
   l_arm_first:'Armez d\'abord les moteurs', l_takeoff:'Décollage à 10 m', l_landing:'Atterrissage en cours', l_on_ground:'Le drone est au sol',
   l_move:'Déplacement :', l_speed:'Vitesse =', l_home:'Retour au point de départ', l_estop:'!!! ARRÊT D\'URGENCE !!!', l_landed:'Atterri', l_low_bat:'Batterie faible - atterrissage auto',

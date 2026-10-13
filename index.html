@@ -2,144 +2,111 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>F16 Drone</title>
 <script src="lang.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<style>
-  body { margin:0; background:#d9d9d9 url('data:image/gif;base64,R0lGODlhBAAEAIAAAMzMzP///yH5BAAAAAAALAAAAAAEAAQAAAIFRB6Gy1UAOw==');
-         font-family:Tahoma, Verdana, Arial, sans-serif; font-size:13px; color:#222; }
-  #wrap { width:940px; margin:15px auto; background:#fff; border:1px solid #999; box-shadow:0 0 8px #888; }
-  #header { background:linear-gradient(#4a7bb7,#1f4e8c); color:#fff; padding:14px 18px; border-bottom:3px solid #f0a30a; }
-  #header h1 { margin:0; font-size:22px; text-shadow:1px 1px 0 #000; }
-  #header small { color:#cfe0f5; }
-  #header .lng { float:left; margin-top:4px; font-size:11px; }
-  [dir=ltr] #header .lng { float:right; }
-  [dir=ltr] #log { direction:ltr; }
-  [dir=ltr] #nav a { border-left:0; border-right:1px solid #ccc; }
-  #nav { background:#e8e8e8; border-bottom:1px solid #bbb; padding:0 10px; }
-  #nav a { display:inline-block; padding:7px 14px; color:#1f4e8c; text-decoration:none; font-weight:bold; border-left:1px solid #ccc; }
-  #nav a:hover { background:#fff; text-decoration:underline; }
-  .cols { display:table; width:100%; }
-  .col { display:table-cell; vertical-align:top; padding:10px; }
-  .box { border:1px solid #aab; margin-bottom:10px; background:#f7f7f7; }
-  .box h3 { margin:0; padding:5px 8px; font-size:13px; color:#fff; background:linear-gradient(#6c8ebf,#3d6399); border-bottom:1px solid #2b4a78; }
-  .box .in { padding:8px; }
-  table.data { width:100%; border-collapse:collapse; }
-  table.data td { border:1px solid #ccc; padding:4px 6px; background:#fff; }
-  table.data tr:nth-child(odd) td { background:#eef3fa; }
-  table.data td:first-child { font-weight:bold; width:45%; }
-  .btn { font-family:Tahoma; font-size:12px; padding:5px 10px; margin:2px; cursor:pointer;
-         border:1px solid #777; border-radius:3px; background:linear-gradient(#fdfdfd,#d4d4d4); }
-  .btn:hover { background:linear-gradient(#fff,#e6e6e6); border-color:#3d6399; }
-  .btn:active { background:#ccc; }
-  .green { color:#060; font-weight:bold; } .red { color:#b00; font-weight:bold; }
-  .stop { background:linear-gradient(#ff6a6a,#b30000); color:#fff; font-weight:bold; width:100%; padding:10px; border-color:#700; }
-  .pad td { padding:1px; text-align:center; }
-  .pad .btn { width:70px; }
-  #radar { border:2px inset #999; background:#0b2a0b; display:block; margin:auto; }
-  #log { height:150px; overflow:auto; background:#000; color:#3f3; font:12px "Courier New",monospace; padding:5px; direction:rtl; }
-  .bar { height:14px; border:1px solid #666; background:#fff; }
-  .bar div { height:100%; background:linear-gradient(#8fd66b,#3c9a1e); }
-  #footer { text-align:center; font-size:11px; color:#666; padding:8px; border-top:1px solid #ccc; background:#f0f0f0; }
-  #map { height:330px; border:2px inset #999; }
-  .plane { font-size:18px; color:#c00; text-shadow:0 0 2px #fff; line-height:18px; }
-  .dronei { font-size:16px; color:#060; text-shadow:0 0 3px #fff; }
-  .frm td { padding:3px; } .frm input { width:95%; font-family:Tahoma; font-size:12px; border:1px solid #999; padding:2px; }
-  #permit { margin-top:6px; padding:6px; border:1px dashed #999; background:#fff; font-size:12px; }
-  #permit.ok { border-color:#060; background:#eaffea; } #permit.no { border-color:#b00; background:#ffecec; }
-  marquee { background:#ffffcc; border-bottom:1px solid #e0d080; padding:3px; color:#850; }
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div id="wrap">
-  <div id="header">
-    <div class="lng"><span data-t="language"></span> <script>document.write(langSelect())</script></div>
-    <h1>&#9992; <span data-t="title"></span></h1>
-    <small data-t="sub"></small>
+<header class="top">
+  <div class="brand">
+    <div class="logo">&#9992;</div>
+    <div><h1 data-t="title"></h1><small data-t="sub"></small></div>
   </div>
-  <div id="nav"><a href="index.html" data-t="nav_home"></a><a href="#" data-t="nav_ctrl"></a><a href="#" data-t="nav_map"></a><a href="kurulum.html" data-t="nav_guide"></a><a href="#" data-t="nav_contact"></a></div>
-  <marquee scrollamount="4"><span data-t="welcome"></span> <b id="mode" data-t="connecting"></b></marquee>
-
-  <div class="cols">
-    <!-- العمود الأيمن: الحالة -->
-    <div class="col" style="width:30%">
-      <div class="box"><h3 data-t="box_status"></h3><div class="in">
-        <table class="data">
-          <tr><td data-t="motors"></td><td id="s_armed">-</td></tr>
-          <tr><td data-t="flight"></td><td id="s_flying">-</td></tr>
-          <tr><td data-t="alt"></td><td id="s_alt">-</td></tr>
-          <tr><td data-t="pos"></td><td id="s_pos">-</td></tr>
-          <tr><td data-t="heading"></td><td id="s_head">-</td></tr>
-          <tr><td data-t="speed"></td><td id="s_speed">-</td></tr>
-        </table>
-        <p style="margin:8px 0 3px"><span data-t="battery"></span>: <b id="s_bat">-</b></p>
-        <div class="bar"><div id="batbar" style="width:100%"></div></div>
-      </div></div>
-      <div class="box"><h3 data-t="box_settings"></h3><div class="in">
-        <span data-t="speed_set"></span>
-        <select id="spd" onchange="cmd('speed', this.value)">
-          <option>1</option><option selected>2</option><option>5</option><option>10</option><option>15</option>
-        </select>
-      </div></div>
-    </div>
-
-    <!-- العمود الأوسط: التحكم -->
-    <div class="col" style="width:35%">
-      <div class="box"><h3 data-t="box_basic"></h3><div class="in" style="text-align:center">
-        <button class="btn" onclick="cmd('arm')" data-t="b_arm"></button>
-        <button class="btn" onclick="cmd('disarm')" data-t="b_disarm"></button><br>
-        <button class="btn" onclick="cmd('takeoff')">&#9650; <span data-t="b_takeoff"></span></button>
-        <button class="btn" onclick="cmd('land')">&#9660; <span data-t="b_land"></span></button>
-        <button class="btn" onclick="cmd('home')">&#8962; <span data-t="b_home"></span></button>
-      </div></div>
-      <div class="box"><h3 data-t="box_dir"></h3><div class="in">
-        <table class="pad" align="center">
-          <tr><td><button class="btn" onclick="cmd('yaw_l')">&#8634; <span data-t="yaw"></span></button></td>
-              <td><button class="btn" onclick="cmd('forward')">&#9650; <span data-t="forward"></span></button></td>
-              <td><button class="btn" onclick="cmd('yaw_r')"><span data-t="yaw"></span> &#8635;</button></td></tr>
-          <tr><td><button class="btn" onclick="cmd('right')">&#9654; <span data-t="right"></span></button></td>
-              <td><button class="btn" onclick="cmd('back')">&#9660; <span data-t="back"></span></button></td>
-              <td><button class="btn" onclick="cmd('left')"><span data-t="left"></span> &#9664;</button></td></tr>
-          <tr><td></td>
-              <td><button class="btn" onclick="cmd('up')" data-t="up"></button><br><button class="btn" onclick="cmd('down')" data-t="down"></button></td>
-              <td></td></tr>
-        </table>
-        <p style="font-size:11px;color:#666;text-align:center" data-t="keys_hint"></p>
-      </div></div>
-      <button class="btn stop" onclick="cmd('stop')">&#9888; <span data-t="estop_btn"></span></button>
-    </div>
-
-    <!-- العمود الأيسر: الرادار والسجل -->
-    <div class="col" style="width:35%">
-      <div class="box"><h3 data-t="box_radar"></h3><div class="in"><canvas id="radar" width="260" height="200"></canvas></div></div>
-      <div class="box"><h3 data-t="box_log"></h3><div id="log"></div></div>
-    </div>
+  <nav>
+    <a href="index.html" class="on" data-t="nav_home"></a>
+    <a href="#map" data-t="nav_map"></a>
+    <a href="kurulum.html" data-t="nav_guide"></a>
+  </nav>
+  <div class="tools">
+    <span class="pill"><i class="dot"></i><b id="mode" data-t="connecting"></b></span>
+    <script>document.write(langSelect())</script>
   </div>
-  <div class="cols">
-    <div class="col" style="width:65%">
-      <div class="box"><h3 data-t="box_map"></h3><div class="in">
-        <div id="map"></div>
-        <p style="margin:5px 0 0;font-size:11px"><b data-t="ac_count"></b> <b id="ac_n">-</b> &nbsp;|&nbsp; <span id="ac_msg" data-t="map_src"></span></p>
-      </div></div>
+</header>
+
+<main class="grid">
+  <!-- الحالة -->
+  <section class="card span4">
+    <h3 data-t="box_status"></h3>
+    <div class="stats">
+      <div class="stat"><span data-t="motors"></span><b id="s_armed">-</b></div>
+      <div class="stat"><span data-t="flight"></span><b id="s_flying">-</b></div>
+      <div class="stat"><span data-t="alt"></span><b id="s_alt">-</b></div>
+      <div class="stat"><span data-t="speed"></span><b id="s_speed">-</b></div>
+      <div class="stat"><span data-t="pos"></span><b id="s_pos">-</b></div>
+      <div class="stat"><span data-t="heading"></span><b id="s_head">-</b></div>
     </div>
-    <div class="col" style="width:35%">
-      <div class="box"><h3 data-t="box_permit"></h3><div class="in">
-        <table class="frm" width="100%">
-          <tr><td data-t="p_pilot"></td><td><input id="p_pilot"></td></tr>
-          <tr><td data-t="p_reg"></td><td><input id="p_reg" placeholder="TR-IHA-0001"></td></tr>
-          <tr><td data-t="p_purpose"></td><td><input id="p_purpose"></td></tr>
-          <tr><td data-t="p_alt"></td><td><input id="p_alt" type="number" value="50"></td></tr>
-          <tr><td data-t="p_dur"></td><td><input id="p_dur" type="number" value="15"></td></tr>
-        </table>
-        <div style="text-align:center"><button class="btn" onclick="requestPermit()" data-t="p_request"></button></div>
-        <div id="permit"></div>
-        <p style="font-size:10px;color:#888;margin:5px 0 0" data-t="p_note"></p>
-      </div></div>
+    <div class="batt"><span data-t="battery"></span><b id="s_bat">-</b></div>
+    <div class="bar"><div id="batbar" style="width:100%"></div></div>
+    <label class="row"><span data-t="speed_set"></span>
+      <select id="spd" onchange="cmd('speed', this.value)">
+        <option>1</option><option selected>2</option><option>5</option><option>10</option><option>15</option>
+      </select>
+    </label>
+  </section>
+
+  <!-- التحكم -->
+  <section class="card span4">
+    <h3 data-t="box_basic"></h3>
+    <div class="btns">
+      <button class="btn" onclick="cmd('arm')" data-t="b_arm"></button>
+      <button class="btn" onclick="cmd('disarm')" data-t="b_disarm"></button>
+      <button class="btn primary" onclick="cmd('takeoff')">&#8593; <span data-t="b_takeoff"></span></button>
+      <button class="btn" onclick="cmd('land')">&#8595; <span data-t="b_land"></span></button>
+      <button class="btn wide" onclick="cmd('home')">&#8962; <span data-t="b_home"></span></button>
     </div>
-  </div>
-  <div id="footer"><span data-t="footer"></span> | <a href="kurulum.html" data-t="nav_guide"></a> | <a href="#" data-t="privacy"></a></div>
-</div>
+    <h3 data-t="box_dir"></h3>
+    <div class="pad">
+      <button class="btn" onclick="cmd('yaw_l')">&#8634;<small data-t="yaw"></small></button>
+      <button class="btn" onclick="cmd('forward')">&#9650;<small data-t="forward"></small></button>
+      <button class="btn" onclick="cmd('yaw_r')">&#8635;<small data-t="yaw"></small></button>
+      <button class="btn" onclick="cmd('right')">&#9654;<small data-t="right"></small></button>
+      <button class="btn" onclick="cmd('back')">&#9660;<small data-t="back"></small></button>
+      <button class="btn" onclick="cmd('left')">&#9664;<small data-t="left"></small></button>
+      <button class="btn" onclick="cmd('up')" data-t="up"></button>
+      <button class="btn" onclick="cmd('down')" data-t="down"></button>
+    </div>
+    <p class="hint" data-t="keys_hint"></p>
+    <button class="btn stop" onclick="cmd('stop')">&#9888; <span data-t="estop_btn"></span></button>
+  </section>
+
+  <!-- الرادار والسجل -->
+  <section class="card span4">
+    <h3 data-t="box_radar"></h3>
+    <canvas id="radar" width="260" height="200"></canvas>
+    <h3 data-t="box_log"></h3>
+    <div id="log"></div>
+  </section>
+
+  <!-- الخريطة -->
+  <section class="card span8">
+    <h3 data-t="box_map"></h3>
+    <div id="map"></div>
+    <p class="meta"><b data-t="ac_count"></b> <b id="ac_n">-</b> · <span id="ac_msg" data-t="map_src"></span></p>
+  </section>
+
+  <!-- إذن الإقلاع -->
+  <section class="card span4">
+    <h3 data-t="box_permit"></h3>
+    <div class="form">
+      <label><span data-t="p_pilot"></span><input id="p_pilot"></label>
+      <label><span data-t="p_reg"></span><input id="p_reg" placeholder="TR-IHA-0001"></label>
+      <label><span data-t="p_purpose"></span><input id="p_purpose"></label>
+      <div class="two">
+        <label><span data-t="p_alt"></span><input id="p_alt" type="number" value="50"></label>
+        <label><span data-t="p_dur"></span><input id="p_dur" type="number" value="15"></label>
+      </div>
+      <button class="btn primary" onclick="requestPermit()" data-t="p_request"></button>
+    </div>
+    <div id="permit"></div>
+    <p class="hint" data-t="p_note"></p>
+  </section>
+</main>
+<footer class="foot"><span data-t="footer"></span> · <a href="kurulum.html" data-t="nav_guide"></a> · <a href="#" data-t="privacy"></a></footer>
 
 <script>
 // يحاول الاتصال بـ drone.py، وإذا ما لقاه يشتغل وضع محاكاة داخل المتصفح
@@ -180,19 +147,20 @@ function cmd(c, v) {
 
 function poll() {
   fetch(API+'/status').then(function(r){return r.json();})
-    .then(function(d){ online=true; document.getElementById('mode').setAttribute('data-t','online'); document.getElementById('mode').innerHTML=t('online'); render(d); })
-    .catch(function(){ online=false; document.getElementById('mode').setAttribute('data-t','offline'); document.getElementById('mode').innerHTML=t('offline'); render(sim); });
+    .then(function(d){ online=true; document.getElementById('mode').setAttribute('data-t','online'); document.querySelector('.pill').className='pill on'; document.getElementById('mode').innerHTML=t('online'); render(d); })
+    .catch(function(){ online=false; document.getElementById('mode').setAttribute('data-t','offline'); document.querySelector('.pill').className='pill'; document.getElementById('mode').innerHTML=t('offline'); render(sim); });
 }
 // ===== الخريطة الحية (Leaflet + OpenStreetMap) والطائرات من ADS-B مفتوح =====
 var HOME = [41.0082, 28.9784], planes = [], map, droneMk, homeMk, zone, acLayer;
 function initMap() {
   map = L.map('map').setView(HOME, 11);
-  var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:19, attribution:'&copy; OpenStreetMap'}).addTo(map);
+  var dark = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:19, className:'dark-tiles', attribution:'&copy; OpenStreetMap'}).addTo(map);
+  var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:19, attribution:'&copy; OpenStreetMap'});
   var sat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {maxZoom:19, attribution:'Esri'});
-  L.control.layers({'Map':osm, 'Satellite':sat}).addTo(map);
+  L.control.layers({'Dark':dark, 'Map':osm, 'Satellite':sat}).addTo(map);
   acLayer = L.layerGroup().addTo(map);
-  zone = L.circle(HOME, {radius:5000, color:'#f0a30a', weight:1, fill:false, dashArray:'4'}).addTo(map);
-  homeMk = L.circleMarker(HOME, {radius:6, color:'#1f4e8c'}).addTo(map);
+  zone = L.circle(HOME, {radius:5000, color:'#6366f1', weight:1, fill:false, dashArray:'4'}).addTo(map);
+  homeMk = L.circleMarker(HOME, {radius:6, color:'#22d3ee'}).addTo(map);
   droneMk = L.marker(HOME, {icon:L.divIcon({className:'dronei', html:'&#10023;', iconSize:[16,16]})}).addTo(map);
   if (navigator.geolocation) navigator.geolocation.getCurrentPosition(function(p){
     HOME = [p.coords.latitude, p.coords.longitude]; map.setView(HOME, 11);
@@ -276,17 +244,17 @@ function render(d) {
 
   // الرادار
   var cv=$('radar'), g=cv.getContext('2d'), cx=130, cy=100, k=3;
-  g.fillStyle='#0b2a0b'; g.fillRect(0,0,260,200);
-  g.strokeStyle='#1d5a1d';
+  g.fillStyle='#0a0f1c'; g.fillRect(0,0,260,200);
+  g.strokeStyle='rgba(99,102,241,.35)';
   for (var r=30;r<=90;r+=30){ g.beginPath(); g.arc(cx,cy,r,0,7); g.stroke(); }
   g.beginPath(); g.moveTo(0,cy); g.lineTo(260,cy); g.moveTo(cx,0); g.lineTo(cx,200); g.stroke();
   var px=cx+d.x*k, py=cy-d.y*k;
   trail.push([px,py]); if (trail.length>60) trail.shift();
-  g.fillStyle='#2a7a2a'; trail.forEach(function(p){ g.fillRect(p[0],p[1],2,2); });
+  g.fillStyle='rgba(34,211,238,.5)'; trail.forEach(function(p){ g.fillRect(p[0],p[1],2,2); });
   g.save(); g.translate(px,py); g.rotate(d.heading*Math.PI/180);
-  g.fillStyle = d.flying ? '#3f3' : '#aaa';
+  g.fillStyle = d.flying ? '#22d3ee' : '#64748b';
   g.beginPath(); g.moveTo(0,-8); g.lineTo(6,6); g.lineTo(-6,6); g.closePath(); g.fill(); g.restore();
-  g.fillStyle='#3f3'; g.font='10px Courier New'; g.fillText('N',cx-3,10); g.fillText('H',cx+3,cy-3);
+  g.fillStyle='#94a3b8'; g.font='10px JetBrains Mono, monospace'; g.fillText('N',cx-3,10); g.fillText('H',cx+3,cy-3);
 }
 
 document.onkeydown = function(e){
