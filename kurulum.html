@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>F16 Drone Kurulum</title>
+<script src="lang.js"></script>
+<style>
+  body { margin:0; background:#d9d9d9; font-family:Tahoma, Verdana, Arial, sans-serif; font-size:13px; color:#222; }
+  #wrap { width:940px; margin:15px auto; background:#fff; border:1px solid #999; box-shadow:0 0 8px #888; }
+  #header { background:linear-gradient(#4a7bb7,#1f4e8c); color:#fff; padding:14px 18px; border-bottom:3px solid #f0a30a; }
+  #header h1 { margin:0; font-size:22px; text-shadow:1px 1px 0 #000; }
+  #header .lng { float:left; margin-top:4px; font-size:11px; } [dir=ltr] #header .lng { float:right; }
+  #nav { background:#e8e8e8; border-bottom:1px solid #bbb; padding:0 10px; }
+  #nav a { display:inline-block; padding:7px 14px; color:#1f4e8c; text-decoration:none; font-weight:bold; }
+  #nav a:hover { background:#fff; text-decoration:underline; }
+  #content { padding:15px 25px; line-height:1.7; }
+  h2 { color:#1f4e8c; border-bottom:2px solid #f0a30a; padding-bottom:3px; font-size:17px; }
+  h3 { background:linear-gradient(#6c8ebf,#3d6399); color:#fff; padding:4px 8px; font-size:13px; margin:18px 0 6px; }
+  pre { background:#000; color:#3f3; padding:8px; font:12px "Courier New",monospace; direction:ltr; text-align:left; border:2px inset #999; }
+  table { border-collapse:collapse; } td, th { border:1px solid #bbb; padding:4px 8px; } th { background:#e8e8e8; }
+  .note { background:#ffffcc; border:1px solid #e0d080; padding:6px 10px; }
+  #footer { text-align:center; font-size:11px; color:#666; padding:8px; border-top:1px solid #ccc; background:#f0f0f0; }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <div id="header">
+    <div class="lng"><span data-t="language"></span> <script>document.write(langSelect())</script></div>
+    <h1>&#9992; F16 Drone — <span data-t="nav_guide"></span></h1>
+  </div>
+  <div id="nav"><a href="index.html" data-t="nav_home"></a><a href="kurulum.html" data-t="nav_guide"></a></div>
+  <div id="content"></div>
+  <div id="footer" data-t="footer"></div>
+</div>
+
+<script>
+var CMD = '<pre>git clone https://github.com/alsaedisarmad/f16drone.git\ncd f16drone\npython drone.py</pre>';
+var URL_ = '<pre>http://localhost:8080</pre>';
+var KEYS = '<table><tr><th>W / S</th><td>%f / %b</td></tr><tr><th>A / D</th><td>%l / %r</td></tr><tr><th>Q / E</th><td>%y</td></tr><tr><th>R / F</th><td>%u / %d</td></tr><tr><th>Space</th><td>%x</td></tr></table>';
+
+var G = {
+ar: ['دليل التثبيت والتشغيل',
+ '<h3>1. المتطلبات</h3><ul><li>Python 3.8 أو أحدث (<a href="https://www.python.org/downloads/">python.org</a>) — بدون مكتبات إضافية</li><li>متصفح حديث (Chrome / Firefox / Edge)</li><li>اتصال إنترنت للخريطة وبيانات الطائرات</li></ul>' +
+ '<h3>2. التحميل والتشغيل</h3>' + CMD + '<p>أو حمّل الملفات ZIP من GitHub وفك الضغط، ثم شغّل <code>python drone.py</code>.</p>' +
+ '<h3>3. فتح لوحة التحكم</h3>' + URL_ + '<p>إذا فتحت اللوحة بدون السيرفر (مثلاً من GitHub Pages) تعمل بوضع <b>المحاكاة</b>.</p>' +
+ '<h3>4. خطوات الطيران</h3><ol><li>اضغط <b>تشغيل المحركات</b>.</li><li>املأ نموذج <b>طلب إذن الإقلاع</b> واضغط «طلب الإذن».</li><li>يُفحص: البطارية ≥ 30%، الارتفاع ≤ 120 م، لا طائرات منخفضة ضمن 5 كم.</li><li>بعد الموافقة اضغط <b>إقلاع</b> وتحكم بالأزرار أو لوحة المفاتيح.</li><li>اضغط <b>هبوط</b> ثم <b>إيقاف المحركات</b>.</li></ol>' +
+ '<h3>5. لوحة المفاتيح</h3>' + KEYS +
+ '<h3>6. الخريطة الحية</h3><p>الخريطة من OpenStreetMap (مع طبقة قمر صناعي)، والطائرات الحقيقية من شبكة ADS-B المفتوحة (adsb.lol، واحتياطياً OpenSky) وتتحدث كل 15 ثانية. يُطلب إذن الموقع لوضع نقطة الإقلاع في مكانك.</p>' +
+ '<h3>7. حل المشاكل</h3><ul><li><b>المنفذ 8080 مستخدم:</b> غيّر الرقم في آخر سطر من drone.py.</li><li><b>لا تظهر الطائرات:</b> شغّل drone.py محلياً (الموقع على GitHub يعتمد على بروكسي عام قد يتوقف).</li><li><b>python غير معروف:</b> جرّب <code>py drone.py</code> أو <code>python3 drone.py</code>.</li></ul>' +
+ '<p class="note">⚠ هذا مشروع تعليمي بمحاكاة. إذن الإقلاع هنا فحص محلي وليس موافقة رسمية — للطيران الحقيقي التزم بأنظمة هيئة الطيران في بلدك.</p>'],
+tr: ['Kurulum ve Kullanım Kılavuzu',
+ '<h3>1. Gereksinimler</h3><ul><li>Python 3.8 veya üstü (<a href="https://www.python.org/downloads/">python.org</a>) — ek kütüphane gerekmez</li><li>Modern bir tarayıcı (Chrome / Firefox / Edge)</li><li>Harita ve uçak verisi için internet bağlantısı</li></ul>' +
+ '<h3>2. İndirme ve Çalıştırma</h3>' + CMD + '<p>Veya dosyaları GitHub\'dan ZIP olarak indirip açın, ardından <code>python drone.py</code> çalıştırın.</p>' +
+ '<h3>3. Kontrol Panelini Açma</h3>' + URL_ + '<p>Panel sunucu olmadan açılırsa (ör. GitHub Pages) <b>simülasyon</b> modunda çalışır.</p>' +
+ '<h3>4. Uçuş Adımları</h3><ol><li><b>Motorları Çalıştır</b>\'a basın.</li><li><b>Kalkış İzni Talebi</b> formunu doldurup «İzin İste»ye basın.</li><li>Kontroller: batarya ≥ %30, irtifa ≤ 120 m, 5 km içinde alçak uçak yok.</li><li>Onaydan sonra <b>Kalkış</b>\'a basın; butonlar veya klavyeyle kontrol edin.</li><li><b>İniş</b> ve ardından <b>Motorları Durdur</b>.</li></ol>' +
+ '<h3>5. Klavye</h3>' + KEYS +
+ '<h3>6. Canlı Harita</h3><p>Harita OpenStreetMap\'ten (uydu katmanı ile), gerçek uçaklar açık ADS-B ağından (adsb.lol, yedek OpenSky) gelir ve 15 saniyede bir güncellenir. Kalkış noktasını konumunuza koymak için konum izni istenir.</p>' +
+ '<h3>7. Sorun Giderme</h3><ul><li><b>8080 portu kullanımda:</b> drone.py\'nin son satırındaki numarayı değiştirin.</li><li><b>Uçaklar görünmüyor:</b> drone.py\'yi yerelde çalıştırın (GitHub sürümü genel bir proxy kullanır).</li><li><b>python bulunamadı:</b> <code>py drone.py</code> veya <code>python3 drone.py</code> deneyin.</li></ul>' +
+ '<p class="note">⚠ Bu bir eğitim/simülasyon projesidir. Buradaki kalkış izni yerel bir kontroldür, resmi onay değildir — gerçek uçuşlarda SHGM kurallarına uyun.</p>'],
+en: ['Installation & Usage Guide',
+ '<h3>1. Requirements</h3><ul><li>Python 3.8 or newer (<a href="https://www.python.org/downloads/">python.org</a>) — no extra libraries</li><li>A modern browser (Chrome / Firefox / Edge)</li><li>Internet connection for the map and aircraft data</li></ul>' +
+ '<h3>2. Download & Run</h3>' + CMD + '<p>Or download the ZIP from GitHub, extract it, then run <code>python drone.py</code>.</p>' +
+ '<h3>3. Open the Control Panel</h3>' + URL_ + '<p>If the panel is opened without the server (e.g. on GitHub Pages) it runs in <b>simulation</b> mode.</p>' +
+ '<h3>4. Flight Steps</h3><ol><li>Click <b>Arm Motors</b>.</li><li>Fill in the <b>Takeoff Permission Request</b> form and click "Request Permission".</li><li>Checks: battery ≥ 30%, altitude ≤ 120 m, no low-flying aircraft within 5 km.</li><li>Once approved, click <b>Take off</b> and fly with the buttons or keyboard.</li><li>Click <b>Land</b>, then <b>Disarm Motors</b>.</li></ol>' +
+ '<h3>5. Keyboard</h3>' + KEYS +
+ '<h3>6. Live Map</h3><p>The map uses OpenStreetMap (with a satellite layer); real aircraft come from the open ADS-B network (adsb.lol, OpenSky as fallback) and refresh every 15 seconds. Location permission is requested to place the takeoff point at your position.</p>' +
+ '<h3>7. Troubleshooting</h3><ul><li><b>Port 8080 in use:</b> change the number on the last line of drone.py.</li><li><b>No aircraft shown:</b> run drone.py locally (the GitHub version relies on a public proxy).</li><li><b>python not found:</b> try <code>py drone.py</code> or <code>python3 drone.py</code>.</li></ul>' +
+ '<p class="note">⚠ This is an educational simulation. The takeoff permit here is a local check, not an official approval — follow your aviation authority\'s rules for real flights.</p>'],
+es: ['Guía de Instalación y Uso',
+ '<h3>1. Requisitos</h3><ul><li>Python 3.8 o superior (<a href="https://www.python.org/downloads/">python.org</a>) — sin librerías extra</li><li>Un navegador moderno (Chrome / Firefox / Edge)</li><li>Conexión a Internet para el mapa y los datos de aeronaves</li></ul>' +
+ '<h3>2. Descarga y Ejecución</h3>' + CMD + '<p>O descargue el ZIP desde GitHub, descomprímalo y ejecute <code>python drone.py</code>.</p>' +
+ '<h3>3. Abrir el Panel de Control</h3>' + URL_ + '<p>Si el panel se abre sin el servidor (p. ej. en GitHub Pages) funciona en modo <b>simulación</b>.</p>' +
+ '<h3>4. Pasos de Vuelo</h3><ol><li>Pulse <b>Armar Motores</b>.</li><li>Complete el formulario <b>Solicitud de Permiso de Despegue</b> y pulse «Solicitar Permiso».</li><li>Comprobaciones: batería ≥ 30%, altitud ≤ 120 m, sin aeronaves a baja altura en 5 km.</li><li>Tras la aprobación pulse <b>Despegar</b> y controle con los botones o el teclado.</li><li>Pulse <b>Aterrizar</b> y luego <b>Desarmar Motores</b>.</li></ol>' +
+ '<h3>5. Teclado</h3>' + KEYS +
+ '<h3>6. Mapa en Vivo</h3><p>El mapa usa OpenStreetMap (con capa satelital); las aeronaves reales provienen de la red abierta ADS-B (adsb.lol, OpenSky como respaldo) y se actualizan cada 15 segundos. Se solicita permiso de ubicación para situar el punto de despegue.</p>' +
+ '<h3>7. Solución de Problemas</h3><ul><li><b>Puerto 8080 en uso:</b> cambie el número en la última línea de drone.py.</li><li><b>No aparecen aeronaves:</b> ejecute drone.py localmente (la versión de GitHub usa un proxy público).</li><li><b>python no encontrado:</b> pruebe <code>py drone.py</code> o <code>python3 drone.py</code>.</li></ul>' +
+ '<p class="note">⚠ Proyecto educativo con simulación. El permiso aquí es una comprobación local, no una aprobación oficial — respete las normas de aviación de su país.</p>'],
+de: ['Installations- und Bedienungsanleitung',
+ '<h3>1. Voraussetzungen</h3><ul><li>Python 3.8 oder neuer (<a href="https://www.python.org/downloads/">python.org</a>) — keine Zusatzbibliotheken</li><li>Ein moderner Browser (Chrome / Firefox / Edge)</li><li>Internetverbindung für Karte und Flugdaten</li></ul>' +
+ '<h3>2. Herunterladen & Starten</h3>' + CMD + '<p>Oder das ZIP von GitHub herunterladen, entpacken und <code>python drone.py</code> ausführen.</p>' +
+ '<h3>3. Steuerpult öffnen</h3>' + URL_ + '<p>Ohne Server (z. B. auf GitHub Pages) läuft das Pult im <b>Simulationsmodus</b>.</p>' +
+ '<h3>4. Flugablauf</h3><ol><li><b>Motoren scharf</b> klicken.</li><li>Formular <b>Startgenehmigung beantragen</b> ausfüllen und „Genehmigung anfordern" klicken.</li><li>Prüfungen: Akku ≥ 30 %, Höhe ≤ 120 m, kein Tiefflieger innerhalb 5 km.</li><li>Nach Freigabe <b>Starten</b> klicken und per Tasten oder Tastatur steuern.</li><li><b>Landen</b>, dann <b>Motoren aus</b>.</li></ol>' +
+ '<h3>5. Tastatur</h3>' + KEYS +
+ '<h3>6. Live-Karte</h3><p>Die Karte nutzt OpenStreetMap (mit Satellitenebene); echte Flugzeuge kommen aus dem offenen ADS-B-Netz (adsb.lol, OpenSky als Ersatz) und werden alle 15 Sekunden aktualisiert. Für den Startpunkt wird die Standortfreigabe angefragt.</p>' +
+ '<h3>7. Fehlerbehebung</h3><ul><li><b>Port 8080 belegt:</b> Nummer in der letzten Zeile von drone.py ändern.</li><li><b>Keine Flugzeuge sichtbar:</b> drone.py lokal starten (die GitHub-Version nutzt einen öffentlichen Proxy).</li><li><b>python nicht gefunden:</b> <code>py drone.py</code> oder <code>python3 drone.py</code> versuchen.</li></ul>' +
+ '<p class="note">⚠ Lern- und Simulationsprojekt. Die Startgenehmigung ist nur eine lokale Prüfung, keine behördliche Freigabe — bei echten Flügen die Luftfahrtregeln beachten.</p>'],
+fr: ['Guide d\'Installation et d\'Utilisation',
+ '<h3>1. Prérequis</h3><ul><li>Python 3.8 ou plus récent (<a href="https://www.python.org/downloads/">python.org</a>) — aucune bibliothèque supplémentaire</li><li>Un navigateur moderne (Chrome / Firefox / Edge)</li><li>Connexion Internet pour la carte et les données des avions</li></ul>' +
+ '<h3>2. Téléchargement et Lancement</h3>' + CMD + '<p>Ou téléchargez le ZIP depuis GitHub, décompressez-le puis lancez <code>python drone.py</code>.</p>' +
+ '<h3>3. Ouvrir le Panneau de Contrôle</h3>' + URL_ + '<p>Sans le serveur (ex. sur GitHub Pages), le panneau fonctionne en mode <b>simulation</b>.</p>' +
+ '<h3>4. Étapes de Vol</h3><ol><li>Cliquez sur <b>Armer les moteurs</b>.</li><li>Remplissez le formulaire <b>Demande d\'Autorisation de Décollage</b> et cliquez sur « Demander l\'autorisation ».</li><li>Vérifications : batterie ≥ 30 %, altitude ≤ 120 m, aucun avion à basse altitude à moins de 5 km.</li><li>Une fois approuvé, cliquez sur <b>Décoller</b> et pilotez avec les boutons ou le clavier.</li><li>Cliquez sur <b>Atterrir</b>, puis <b>Désarmer</b>.</li></ol>' +
+ '<h3>5. Clavier</h3>' + KEYS +
+ '<h3>6. Carte en Direct</h3><p>La carte utilise OpenStreetMap (avec couche satellite) ; les avions réels proviennent du réseau ouvert ADS-B (adsb.lol, OpenSky en secours) et sont actualisés toutes les 15 secondes. L\'autorisation de localisation est demandée pour placer le point de décollage.</p>' +
+ '<h3>7. Dépannage</h3><ul><li><b>Port 8080 occupé :</b> changez le numéro à la dernière ligne de drone.py.</li><li><b>Aucun avion affiché :</b> lancez drone.py en local (la version GitHub utilise un proxy public).</li><li><b>python introuvable :</b> essayez <code>py drone.py</code> ou <code>python3 drone.py</code>.</li></ul>' +
+ '<p class="note">⚠ Projet éducatif de simulation. L\'autorisation ici est une vérification locale, pas une approbation officielle — respectez la réglementation aérienne pour les vols réels.</p>']
+};
+
+window.onLang = function() {
+  var g = G[LANG], keys = KEYS.replace('%f', t('forward')).replace('%b', t('back')).replace('%l', t('left')).replace('%r', t('right'))
+    .replace('%y', t('yaw')).replace('%u', t('up')).replace('%d', t('down')).replace('%x', t('estop_btn'));
+  document.getElementById('content').innerHTML = '<h2>' + g[0] + '</h2>' + g[1].replace(KEYS, keys);
+  document.title = 'F16 Drone — ' + t('nav_guide');
+};
+applyLang();
+</script>
+</body>
+</html>

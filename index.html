@@ -2,7 +2,10 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<title>لوحة تحكم الدرون</title>
+<title>F16 Drone</title>
+<script src="lang.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <style>
   body { margin:0; background:#d9d9d9 url('data:image/gif;base64,R0lGODlhBAAEAIAAAMzMzP///yH5BAAAAAAALAAAAAAEAAQAAAIFRB6Gy1UAOw==');
          font-family:Tahoma, Verdana, Arial, sans-serif; font-size:13px; color:#222; }
@@ -10,6 +13,10 @@
   #header { background:linear-gradient(#4a7bb7,#1f4e8c); color:#fff; padding:14px 18px; border-bottom:3px solid #f0a30a; }
   #header h1 { margin:0; font-size:22px; text-shadow:1px 1px 0 #000; }
   #header small { color:#cfe0f5; }
+  #header .lng { float:left; margin-top:4px; font-size:11px; }
+  [dir=ltr] #header .lng { float:right; }
+  [dir=ltr] #log { direction:ltr; }
+  [dir=ltr] #nav a { border-left:0; border-right:1px solid #ccc; }
   #nav { background:#e8e8e8; border-bottom:1px solid #bbb; padding:0 10px; }
   #nav a { display:inline-block; padding:7px 14px; color:#1f4e8c; text-decoration:none; font-weight:bold; border-left:1px solid #ccc; }
   #nav a:hover { background:#fff; text-decoration:underline; }
@@ -35,35 +42,42 @@
   .bar { height:14px; border:1px solid #666; background:#fff; }
   .bar div { height:100%; background:linear-gradient(#8fd66b,#3c9a1e); }
   #footer { text-align:center; font-size:11px; color:#666; padding:8px; border-top:1px solid #ccc; background:#f0f0f0; }
+  #map { height:330px; border:2px inset #999; }
+  .plane { font-size:18px; color:#c00; text-shadow:0 0 2px #fff; line-height:18px; }
+  .dronei { font-size:16px; color:#060; text-shadow:0 0 3px #fff; }
+  .frm td { padding:3px; } .frm input { width:95%; font-family:Tahoma; font-size:12px; border:1px solid #999; padding:2px; }
+  #permit { margin-top:6px; padding:6px; border:1px dashed #999; background:#fff; font-size:12px; }
+  #permit.ok { border-color:#060; background:#eaffea; } #permit.no { border-color:#b00; background:#ffecec; }
   marquee { background:#ffffcc; border-bottom:1px solid #e0d080; padding:3px; color:#850; }
 </style>
 </head>
 <body>
 <div id="wrap">
   <div id="header">
-    <h1>&#9992; نظام التحكم بالطائرة المسيّرة</h1>
-    <small>Drone Control Panel v1.0 — أفضل عرض بدقة 1024×768</small>
+    <div class="lng"><span data-t="language"></span> <script>document.write(langSelect())</script></div>
+    <h1>&#9992; <span data-t="title"></span></h1>
+    <small data-t="sub"></small>
   </div>
-  <div id="nav"><a href="#">الرئيسية</a><a href="#">التحكم</a><a href="#">الخريطة</a><a href="#">الإعدادات</a><a href="#">اتصل بنا</a></div>
-  <marquee scrollamount="4">مرحباً بك في لوحة التحكم — الحالة: <span id="mode">جارِ الاتصال...</span></marquee>
+  <div id="nav"><a href="index.html" data-t="nav_home"></a><a href="#" data-t="nav_ctrl"></a><a href="#" data-t="nav_map"></a><a href="kurulum.html" data-t="nav_guide"></a><a href="#" data-t="nav_contact"></a></div>
+  <marquee scrollamount="4"><span data-t="welcome"></span> <b id="mode" data-t="connecting"></b></marquee>
 
   <div class="cols">
     <!-- العمود الأيمن: الحالة -->
     <div class="col" style="width:30%">
-      <div class="box"><h3>حالة الدرون</h3><div class="in">
+      <div class="box"><h3 data-t="box_status"></h3><div class="in">
         <table class="data">
-          <tr><td>المحركات</td><td id="s_armed">-</td></tr>
-          <tr><td>الطيران</td><td id="s_flying">-</td></tr>
-          <tr><td>الارتفاع</td><td id="s_alt">-</td></tr>
-          <tr><td>الموقع X / Y</td><td id="s_pos">-</td></tr>
-          <tr><td>الاتجاه</td><td id="s_head">-</td></tr>
-          <tr><td>السرعة</td><td id="s_speed">-</td></tr>
+          <tr><td data-t="motors"></td><td id="s_armed">-</td></tr>
+          <tr><td data-t="flight"></td><td id="s_flying">-</td></tr>
+          <tr><td data-t="alt"></td><td id="s_alt">-</td></tr>
+          <tr><td data-t="pos"></td><td id="s_pos">-</td></tr>
+          <tr><td data-t="heading"></td><td id="s_head">-</td></tr>
+          <tr><td data-t="speed"></td><td id="s_speed">-</td></tr>
         </table>
-        <p style="margin:8px 0 3px">البطارية: <b id="s_bat">-</b></p>
+        <p style="margin:8px 0 3px"><span data-t="battery"></span>: <b id="s_bat">-</b></p>
         <div class="bar"><div id="batbar" style="width:100%"></div></div>
       </div></div>
-      <div class="box"><h3>الإعدادات</h3><div class="in">
-        السرعة (م/ث):
+      <div class="box"><h3 data-t="box_settings"></h3><div class="in">
+        <span data-t="speed_set"></span>
         <select id="spd" onchange="cmd('speed', this.value)">
           <option>1</option><option selected>2</option><option>5</option><option>10</option><option>15</option>
         </select>
@@ -72,94 +86,193 @@
 
     <!-- العمود الأوسط: التحكم -->
     <div class="col" style="width:35%">
-      <div class="box"><h3>أوامر أساسية</h3><div class="in" style="text-align:center">
-        <button class="btn" onclick="cmd('arm')">تشغيل المحركات</button>
-        <button class="btn" onclick="cmd('disarm')">إيقاف المحركات</button><br>
-        <button class="btn" onclick="cmd('takeoff')">&#9650; إقلاع</button>
-        <button class="btn" onclick="cmd('land')">&#9660; هبوط</button>
-        <button class="btn" onclick="cmd('home')">&#8962; عودة</button>
+      <div class="box"><h3 data-t="box_basic"></h3><div class="in" style="text-align:center">
+        <button class="btn" onclick="cmd('arm')" data-t="b_arm"></button>
+        <button class="btn" onclick="cmd('disarm')" data-t="b_disarm"></button><br>
+        <button class="btn" onclick="cmd('takeoff')">&#9650; <span data-t="b_takeoff"></span></button>
+        <button class="btn" onclick="cmd('land')">&#9660; <span data-t="b_land"></span></button>
+        <button class="btn" onclick="cmd('home')">&#8962; <span data-t="b_home"></span></button>
       </div></div>
-      <div class="box"><h3>التوجيه</h3><div class="in">
+      <div class="box"><h3 data-t="box_dir"></h3><div class="in">
         <table class="pad" align="center">
-          <tr><td><button class="btn" onclick="cmd('yaw_l')">&#8634; دوران</button></td>
-              <td><button class="btn" onclick="cmd('forward')">&#9650; أمام</button></td>
-              <td><button class="btn" onclick="cmd('yaw_r')">دوران &#8635;</button></td></tr>
-          <tr><td><button class="btn" onclick="cmd('right')">&#9654; يمين</button></td>
-              <td><button class="btn" onclick="cmd('back')">&#9660; خلف</button></td>
-              <td><button class="btn" onclick="cmd('left')">يسار &#9664;</button></td></tr>
+          <tr><td><button class="btn" onclick="cmd('yaw_l')">&#8634; <span data-t="yaw"></span></button></td>
+              <td><button class="btn" onclick="cmd('forward')">&#9650; <span data-t="forward"></span></button></td>
+              <td><button class="btn" onclick="cmd('yaw_r')"><span data-t="yaw"></span> &#8635;</button></td></tr>
+          <tr><td><button class="btn" onclick="cmd('right')">&#9654; <span data-t="right"></span></button></td>
+              <td><button class="btn" onclick="cmd('back')">&#9660; <span data-t="back"></span></button></td>
+              <td><button class="btn" onclick="cmd('left')"><span data-t="left"></span> &#9664;</button></td></tr>
           <tr><td></td>
-              <td><button class="btn" onclick="cmd('up')">+ ارتفاع</button><br><button class="btn" onclick="cmd('down')">- ارتفاع</button></td>
+              <td><button class="btn" onclick="cmd('up')" data-t="up"></button><br><button class="btn" onclick="cmd('down')" data-t="down"></button></td>
               <td></td></tr>
         </table>
-        <p style="font-size:11px;color:#666;text-align:center">لوحة المفاتيح: W A S D / Q E / R F</p>
+        <p style="font-size:11px;color:#666;text-align:center" data-t="keys_hint"></p>
       </div></div>
-      <button class="btn stop" onclick="cmd('stop')">&#9888; إيقاف طوارئ</button>
+      <button class="btn stop" onclick="cmd('stop')">&#9888; <span data-t="estop_btn"></span></button>
     </div>
 
     <!-- العمود الأيسر: الرادار والسجل -->
     <div class="col" style="width:35%">
-      <div class="box"><h3>الرادار</h3><div class="in"><canvas id="radar" width="260" height="200"></canvas></div></div>
-      <div class="box"><h3>سجل الأحداث</h3><div id="log"></div></div>
+      <div class="box"><h3 data-t="box_radar"></h3><div class="in"><canvas id="radar" width="260" height="200"></canvas></div></div>
+      <div class="box"><h3 data-t="box_log"></h3><div id="log"></div></div>
     </div>
   </div>
-  <div id="footer">جميع الحقوق محفوظة &copy; 2015 — تصميم: قسم الهندسة | <a href="#">سياسة الخصوصية</a></div>
+  <div class="cols">
+    <div class="col" style="width:65%">
+      <div class="box"><h3 data-t="box_map"></h3><div class="in">
+        <div id="map"></div>
+        <p style="margin:5px 0 0;font-size:11px"><b data-t="ac_count"></b> <b id="ac_n">-</b> &nbsp;|&nbsp; <span id="ac_msg" data-t="map_src"></span></p>
+      </div></div>
+    </div>
+    <div class="col" style="width:35%">
+      <div class="box"><h3 data-t="box_permit"></h3><div class="in">
+        <table class="frm" width="100%">
+          <tr><td data-t="p_pilot"></td><td><input id="p_pilot"></td></tr>
+          <tr><td data-t="p_reg"></td><td><input id="p_reg" placeholder="TR-IHA-0001"></td></tr>
+          <tr><td data-t="p_purpose"></td><td><input id="p_purpose"></td></tr>
+          <tr><td data-t="p_alt"></td><td><input id="p_alt" type="number" value="50"></td></tr>
+          <tr><td data-t="p_dur"></td><td><input id="p_dur" type="number" value="15"></td></tr>
+        </table>
+        <div style="text-align:center"><button class="btn" onclick="requestPermit()" data-t="p_request"></button></div>
+        <div id="permit"></div>
+        <p style="font-size:10px;color:#888;margin:5px 0 0" data-t="p_note"></p>
+      </div></div>
+    </div>
+  </div>
+  <div id="footer"><span data-t="footer"></span> | <a href="kurulum.html" data-t="nav_guide"></a> | <a href="#" data-t="privacy"></a></div>
 </div>
 
 <script>
 // يحاول الاتصال بـ drone.py، وإذا ما لقاه يشتغل وضع محاكاة داخل المتصفح
 var API = location.protocol.indexOf('http') === 0 ? '' : 'http://localhost:8080';
 var online = false;
-var sim = { armed:false, flying:false, alt:0, x:0, y:0, heading:0, speed:2, battery:100, target_alt:0, log:['وضع المحاكاة المحلي'] };
+var sim = { armed:false, flying:false, alt:0, x:0, y:0, heading:0, speed:2, battery:100, target_alt:0, log:['-- ready'] };
 
 function simCmd(c, v) {
   var s = sim, say = function(m){ s.log.push(new Date().toTimeString().slice(0,8)+' '+m); s.log = s.log.slice(-15); };
-  if (c=='arm') { s.armed=true; say('تم تشغيل المحركات'); }
-  else if (c=='disarm') { if (s.flying) say('لا يمكن الإيقاف أثناء الطيران'); else { s.armed=false; say('تم إيقاف المحركات'); } }
-  else if (c=='takeoff') { if (!s.armed) say('شغّل المحركات أولاً'); else { s.flying=true; s.target_alt=10; say('إقلاع إلى 10 م'); } }
-  else if (c=='land') { s.target_alt=0; say('جارِ الهبوط'); }
+  if (c=='arm') { s.armed=true; say('armed'); }
+  else if (c=='disarm') { if (s.flying) say('arm_in_flight'); else { s.armed=false; say('disarmed'); } }
+  else if (c=='takeoff') { if (!s.armed) say('arm_first'); else { s.flying=true; s.target_alt=10; say('takeoff'); } }
+  else if (c=='land') { s.target_alt=0; say('landing'); }
   else if ({forward:0,right:90,back:180,left:270}[c] !== undefined) {
-    if (!s.flying) { say('الدرون على الأرض'); return; }
+    if (!s.flying) { say('on_ground'); return; }
     var a=(s.heading+{forward:0,right:90,back:180,left:270}[c])*Math.PI/180;
-    s.x+=Math.sin(a)*s.speed; s.y+=Math.cos(a)*s.speed; say('تحرك: '+c);
+    s.x+=Math.sin(a)*s.speed; s.y+=Math.cos(a)*s.speed; say('move '+c);
   }
   else if (c=='up' && s.flying) s.target_alt=Math.min(s.target_alt+2,120);
   else if (c=='down' && s.flying) s.target_alt=Math.max(s.target_alt-2,1);
   else if (c=='yaw_l') s.heading=(s.heading+345)%360;
   else if (c=='yaw_r') s.heading=(s.heading+15)%360;
-  else if (c=='speed') { s.speed=+v; say('السرعة = '+v+' م/ث'); }
-  else if (c=='home') { s.x=s.y=0; say('العودة للنقطة الأساسية'); }
-  else if (c=='stop') { s.flying=s.armed=false; s.alt=s.target_alt=0; say('!!! إيقاف طوارئ !!!'); }
+  else if (c=='speed') { s.speed=+v; say('speed '+v); }
+  else if (c=='home') { s.x=s.y=0; say('home'); }
+  else if (c=='stop') { s.flying=s.armed=false; s.alt=s.target_alt=0; say('estop'); }
 }
 setInterval(function(){
   if (online || !sim.flying) return;
   sim.alt += (sim.target_alt-sim.alt)*0.2; sim.battery=Math.max(0,sim.battery-0.05);
-  if (sim.target_alt==0 && sim.alt<0.1) { sim.alt=0; sim.flying=false; sim.log.push('تم الهبوط'); }
+  if (sim.target_alt==0 && sim.alt<0.1) { sim.alt=0; sim.flying=false; sim.log.push(new Date().toTimeString().slice(0,8)+' landed'); }
 }, 200);
 
 function cmd(c, v) {
+  if (c == 'takeoff' && !permitValid()) { alert(t('l_no_permit')); return; }
   if (!online) { simCmd(c, v); render(sim); return; }
   fetch(API+'/cmd?c='+c+(v?'&v='+v:'')).then(function(r){return r.json();}).then(render);
 }
 
 function poll() {
   fetch(API+'/status').then(function(r){return r.json();})
-    .then(function(d){ online=true; document.getElementById('mode').innerHTML='<b>متصل بالدرون</b>'; render(d); })
-    .catch(function(){ online=false; document.getElementById('mode').innerHTML='<b>غير متصل — محاكاة</b>'; render(sim); });
+    .then(function(d){ online=true; document.getElementById('mode').setAttribute('data-t','online'); document.getElementById('mode').innerHTML=t('online'); render(d); })
+    .catch(function(){ online=false; document.getElementById('mode').setAttribute('data-t','offline'); document.getElementById('mode').innerHTML=t('offline'); render(sim); });
 }
-setInterval(poll, 500); poll();
+// ===== الخريطة الحية (Leaflet + OpenStreetMap) والطائرات من ADS-B مفتوح =====
+var HOME = [41.0082, 28.9784], planes = [], map, droneMk, homeMk, zone, acLayer;
+function initMap() {
+  map = L.map('map').setView(HOME, 11);
+  var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:19, attribution:'&copy; OpenStreetMap'}).addTo(map);
+  var sat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {maxZoom:19, attribution:'Esri'});
+  L.control.layers({'Map':osm, 'Satellite':sat}).addTo(map);
+  acLayer = L.layerGroup().addTo(map);
+  zone = L.circle(HOME, {radius:5000, color:'#f0a30a', weight:1, fill:false, dashArray:'4'}).addTo(map);
+  homeMk = L.circleMarker(HOME, {radius:6, color:'#1f4e8c'}).addTo(map);
+  droneMk = L.marker(HOME, {icon:L.divIcon({className:'dronei', html:'&#10023;', iconSize:[16,16]})}).addTo(map);
+  if (navigator.geolocation) navigator.geolocation.getCurrentPosition(function(p){
+    HOME = [p.coords.latitude, p.coords.longitude]; map.setView(HOME, 11);
+    zone.setLatLng(HOME); homeMk.setLatLng(HOME); loadPlanes();
+  });
+}
+// إزاحة بالأمتار → إحداثيات
+function offset(x, y) { return [HOME[0] + y/111320, HOME[1] + x/(111320*Math.cos(HOME[0]*Math.PI/180))]; }
+function km(a, b) {
+  var R=6371, dLa=(b[0]-a[0])*Math.PI/180, dLo=(b[1]-a[1])*Math.PI/180;
+  var h=Math.sin(dLa/2)*Math.sin(dLa/2)+Math.cos(a[0]*Math.PI/180)*Math.cos(b[0]*Math.PI/180)*Math.sin(dLo/2)*Math.sin(dLo/2);
+  return 2*R*Math.asin(Math.sqrt(h));
+}
+function acMsg(k) { var e = document.getElementById('ac_msg'); e.setAttribute('data-t', k); e.innerHTML = t(k); }
+function loadPlanes() {
+  var la = HOME[0].toFixed(4), lo = HOME[1].toFixed(4);
+  // محلياً عبر drone.py، وعلى GitHub Pages عبر بروكسي CORS عام (قد لا يعمل دائماً)
+  var url = online ? API+'/aircraft?lat='+la+'&lon='+lo+'&dist=40'
+    : 'https://corsproxy.io/?url='+encodeURIComponent('https://api.adsb.lol/v2/lat/'+la+'/lon/'+lo+'/dist/40');
+  fetch(url).then(function(r){ return r.json(); }).then(function(d){
+    if (d.error) throw d.error;
+    if (d.ac) d = d.ac.filter(function(a){ return a.lat; }).map(function(a){
+      return {call:(a.flight||a.r||a.hex||'').trim(), lat:a.lat, lon:a.lon, alt:Math.round((+a.alt_baro||0)*0.3048), trk:a.track||0, spd:Math.round((a.gs||0)*1.852)}; });
+    planes = d; acLayer.clearLayers();
+    d.forEach(function(a){
+      L.marker([a.lat, a.lon], {icon:L.divIcon({className:'plane', iconSize:[18,18],
+        html:'<div style="transform:rotate('+(a.trk-90)+'deg)">&#9992;</div>'})})
+        .bindPopup('<b>'+a.call+'</b><br>'+t('alt')+': '+a.alt+' '+t('m')+'<br>'+t('speed')+': '+a.spd+' km/h').addTo(acLayer);
+    });
+    document.getElementById('ac_n').innerHTML = d.length;
+    acMsg('map_src');
+  }).catch(function(){ acMsg('map_need_server'); });
+}
 
-var trail = [];
+// ===== إذن الإقلاع =====
+var permit = null, permitWhy = [];
+function permitValid() { return permit && Date.now() < permit.until; }
+function requestPermit() {
+  function v(id){ return document.getElementById(id).value.trim(); }
+  var why = [];
+  if (!v('p_pilot') || !v('p_reg') || !v('p_purpose') || !(+v('p_dur') > 0)) why.push('chk_fields');
+  if (last.battery < 30) why.push('chk_bat');
+  if (+v('p_alt') > 120) why.push('chk_alt');
+  if (planes.some(function(a){ return a.alt < 1500 && km(HOME, [a.lat, a.lon]) < 5; })) why.push('chk_traffic');
+  permit = why.length ? null : { id:'F16-'+Math.random().toString(36).slice(2,8).toUpperCase(), until:Date.now()+(+v('p_dur'))*60000 };
+  permitWhy = why; showPermit();
+}
+function showPermit() {
+  var el = document.getElementById('permit');
+  if (permitValid()) { el.className='ok'; el.innerHTML='&#10004; '+t('p_granted')+' <b>'+permit.id+'</b><br>'+t('p_valid')+' '+new Date(permit.until).toTimeString().slice(0,5); }
+  else if (permitWhy.length) { el.className='no'; el.innerHTML='&#10008; '+t('p_denied')+'<br>- '+permitWhy.map(t).join('<br>- '); }
+  else { el.className='no'; el.innerHTML='&#128274; '+t('p_none'); }
+}
+
+initMap(); applyLang(); showPermit();
+setInterval(poll, 500); poll();
+setTimeout(loadPlanes, 1500); setInterval(loadPlanes, 15000);
+
+var trail = [], last = sim;
+window.onLang = function(){ render(last); if (window.showPermit) showPermit(); };
+// سطر السجل: "HH:MM:SS key arg" → نص مترجم
+function logLine(l) {
+  var p = l.split(' '), arg = p[2] || '';
+  if (p[1] == 'move') arg = t(arg);
+  if (p[1] == 'speed') arg += ' ' + t('ms');
+  return (p[0] == '--' ? '' : p[0] + ' ') + t('l_' + p[1]) + (arg ? ' ' + arg : '');
+}
 function render(d) {
+  last = d;
   function $(id){ return document.getElementById(id); }
-  $('s_armed').innerHTML = d.armed ? '<span class="green">يعمل</span>' : '<span class="red">متوقف</span>';
-  $('s_flying').innerHTML = d.flying ? '<span class="green">في الجو</span>' : 'على الأرض';
-  $('s_alt').innerHTML = d.alt.toFixed(1)+' م';
+  $('s_armed').innerHTML = d.armed ? '<span class="green">'+t('on')+'</span>' : '<span class="red">'+t('off')+'</span>';
+  $('s_flying').innerHTML = d.flying ? '<span class="green">'+t('in_air')+'</span>' : t('ground');
+  $('s_alt').innerHTML = d.alt.toFixed(1)+' '+t('m');
   $('s_pos').innerHTML = d.x.toFixed(1)+' / '+d.y.toFixed(1);
   $('s_head').innerHTML = d.heading+'&deg;';
-  $('s_speed').innerHTML = d.speed+' م/ث';
+  $('s_speed').innerHTML = d.speed+' '+t('ms');
   $('s_bat').innerHTML = d.battery.toFixed(0)+'%';
   $('batbar').style.width = d.battery+'%';
-  $('log').innerHTML = d.log.slice().reverse().join('<br>');
+  if (droneMk) droneMk.setLatLng(offset(d.x, d.y));
+  $('log').innerHTML = d.log.slice().reverse().map(logLine).join('<br>');
 
   // الرادار
   var cv=$('radar'), g=cv.getContext('2d'), cx=130, cy=100, k=3;
