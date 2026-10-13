@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>لوحة تحكم الدرون</title>
+<style>
+  body { margin:0; background:#d9d9d9 url('data:image/gif;base64,R0lGODlhBAAEAIAAAMzMzP///yH5BAAAAAAALAAAAAAEAAQAAAIFRB6Gy1UAOw==');
+         font-family:Tahoma, Verdana, Arial, sans-serif; font-size:13px; color:#222; }
+  #wrap { width:940px; margin:15px auto; background:#fff; border:1px solid #999; box-shadow:0 0 8px #888; }
+  #header { background:linear-gradient(#4a7bb7,#1f4e8c); color:#fff; padding:14px 18px; border-bottom:3px solid #f0a30a; }
+  #header h1 { margin:0; font-size:22px; text-shadow:1px 1px 0 #000; }
+  #header small { color:#cfe0f5; }
+  #nav { background:#e8e8e8; border-bottom:1px solid #bbb; padding:0 10px; }
+  #nav a { display:inline-block; padding:7px 14px; color:#1f4e8c; text-decoration:none; font-weight:bold; border-left:1px solid #ccc; }
+  #nav a:hover { background:#fff; text-decoration:underline; }
+  .cols { display:table; width:100%; }
+  .col { display:table-cell; vertical-align:top; padding:10px; }
+  .box { border:1px solid #aab; margin-bottom:10px; background:#f7f7f7; }
+  .box h3 { margin:0; padding:5px 8px; font-size:13px; color:#fff; background:linear-gradient(#6c8ebf,#3d6399); border-bottom:1px solid #2b4a78; }
+  .box .in { padding:8px; }
+  table.data { width:100%; border-collapse:collapse; }
+  table.data td { border:1px solid #ccc; padding:4px 6px; background:#fff; }
+  table.data tr:nth-child(odd) td { background:#eef3fa; }
+  table.data td:first-child { font-weight:bold; width:45%; }
+  .btn { font-family:Tahoma; font-size:12px; padding:5px 10px; margin:2px; cursor:pointer;
+         border:1px solid #777; border-radius:3px; background:linear-gradient(#fdfdfd,#d4d4d4); }
+  .btn:hover { background:linear-gradient(#fff,#e6e6e6); border-color:#3d6399; }
+  .btn:active { background:#ccc; }
+  .green { color:#060; font-weight:bold; } .red { color:#b00; font-weight:bold; }
+  .stop { background:linear-gradient(#ff6a6a,#b30000); color:#fff; font-weight:bold; width:100%; padding:10px; border-color:#700; }
+  .pad td { padding:1px; text-align:center; }
+  .pad .btn { width:70px; }
+  #radar { border:2px inset #999; background:#0b2a0b; display:block; margin:auto; }
+  #log { height:150px; overflow:auto; background:#000; color:#3f3; font:12px "Courier New",monospace; padding:5px; direction:rtl; }
+  .bar { height:14px; border:1px solid #666; background:#fff; }
+  .bar div { height:100%; background:linear-gradient(#8fd66b,#3c9a1e); }
+  #footer { text-align:center; font-size:11px; color:#666; padding:8px; border-top:1px solid #ccc; background:#f0f0f0; }
+  marquee { background:#ffffcc; border-bottom:1px solid #e0d080; padding:3px; color:#850; }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <div id="header">
+    <h1>&#9992; نظام التحكم بالطائرة المسيّرة</h1>
+    <small>Drone Control Panel v1.0 — أفضل عرض بدقة 1024×768</small>
+  </div>
+  <div id="nav"><a href="#">الرئيسية</a><a href="#">التحكم</a><a href="#">الخريطة</a><a href="#">الإعدادات</a><a href="#">اتصل بنا</a></div>
+  <marquee scrollamount="4">مرحباً بك في لوحة التحكم — الحالة: <span id="mode">جارِ الاتصال...</span></marquee>
+
+  <div class="cols">
+    <!-- العمود الأيمن: الحالة -->
+    <div class="col" style="width:30%">
+      <div class="box"><h3>حالة الدرون</h3><div class="in">
+        <table class="data">
+          <tr><td>المحركات</td><td id="s_armed">-</td></tr>
+          <tr><td>الطيران</td><td id="s_flying">-</td></tr>
+          <tr><td>الارتفاع</td><td id="s_alt">-</td></tr>
+          <tr><td>الموقع X / Y</td><td id="s_pos">-</td></tr>
+          <tr><td>الاتجاه</td><td id="s_head">-</td></tr>
+          <tr><td>السرعة</td><td id="s_speed">-</td></tr>
+        </table>
+        <p style="margin:8px 0 3px">البطارية: <b id="s_bat">-</b></p>
+        <div class="bar"><div id="batbar" style="width:100%"></div></div>
+      </div></div>
+      <div class="box"><h3>الإعدادات</h3><div class="in">
+        السرعة (م/ث):
+        <select id="spd" onchange="cmd('speed', this.value)">
+          <option>1</option><option selected>2</option><option>5</option><option>10</option><option>15</option>
+        </select>
+      </div></div>
+    </div>
+
+    <!-- العمود الأوسط: التحكم -->
+    <div class="col" style="width:35%">
+      <div class="box"><h3>أوامر أساسية</h3><div class="in" style="text-align:center">
+        <button class="btn" onclick="cmd('arm')">تشغيل المحركات</button>
+        <button class="btn" onclick="cmd('disarm')">إيقاف المحركات</button><br>
+        <button class="btn" onclick="cmd('takeoff')">&#9650; إقلاع</button>
+        <button class="btn" onclick="cmd('land')">&#9660; هبوط</button>
+        <button class="btn" onclick="cmd('home')">&#8962; عودة</button>
+      </div></div>
+      <div class="box"><h3>التوجيه</h3><div class="in">
+        <table class="pad" align="center">
+          <tr><td><button class="btn" onclick="cmd('yaw_l')">&#8634; دوران</button></td>
+              <td><button class="btn" onclick="cmd('forward')">&#9650; أمام</button></td>
+              <td><button class="btn" onclick="cmd('yaw_r')">دوران &#8635;</button></td></tr>
+          <tr><td><button class="btn" onclick="cmd('right')">&#9654; يمين</button></td>
+              <td><button class="btn" onclick="cmd('back')">&#9660; خلف</button></td>
+              <td><button class="btn" onclick="cmd('left')">يسار &#9664;</button></td></tr>
+          <tr><td></td>
+              <td><button class="btn" onclick="cmd('up')">+ ارتفاع</button><br><button class="btn" onclick="cmd('down')">- ارتفاع</button></td>
+              <td></td></tr>
+        </table>
+        <p style="font-size:11px;color:#666;text-align:center">لوحة المفاتيح: W A S D / Q E / R F</p>
+      </div></div>
+      <button class="btn stop" onclick="cmd('stop')">&#9888; إيقاف طوارئ</button>
+    </div>
+
+    <!-- العمود الأيسر: الرادار والسجل -->
+    <div class="col" style="width:35%">
+      <div class="box"><h3>الرادار</h3><div class="in"><canvas id="radar" width="260" height="200"></canvas></div></div>
+      <div class="box"><h3>سجل الأحداث</h3><div id="log"></div></div>
+    </div>
+  </div>
+  <div id="footer">جميع الحقوق محفوظة &copy; 2015 — تصميم: قسم الهندسة | <a href="#">سياسة الخصوصية</a></div>
+</div>
+
+<script>
+// يحاول الاتصال بـ drone.py، وإذا ما لقاه يشتغل وضع محاكاة داخل المتصفح
+var API = location.protocol.indexOf('http') === 0 ? '' : 'http://localhost:8080';
+var online = false;
+var sim = { armed:false, flying:false, alt:0, x:0, y:0, heading:0, speed:2, battery:100, target_alt:0, log:['وضع المحاكاة المحلي'] };
+
+function simCmd(c, v) {
+  var s = sim, say = function(m){ s.log.push(new Date().toTimeString().slice(0,8)+' '+m); s.log = s.log.slice(-15); };
+  if (c=='arm') { s.armed=true; say('تم تشغيل المحركات'); }
+  else if (c=='disarm') { if (s.flying) say('لا يمكن الإيقاف أثناء الطيران'); else { s.armed=false; say('تم إيقاف المحركات'); } }
+  else if (c=='takeoff') { if (!s.armed) say('شغّل المحركات أولاً'); else { s.flying=true; s.target_alt=10; say('إقلاع إلى 10 م'); } }
+  else if (c=='land') { s.target_alt=0; say('جارِ الهبوط'); }
+  else if ({forward:0,right:90,back:180,left:270}[c] !== undefined) {
+    if (!s.flying) { say('الدرون على الأرض'); return; }
+    var a=(s.heading+{forward:0,right:90,back:180,left:270}[c])*Math.PI/180;
+    s.x+=Math.sin(a)*s.speed; s.y+=Math.cos(a)*s.speed; say('تحرك: '+c);
+  }
+  else if (c=='up' && s.flying) s.target_alt=Math.min(s.target_alt+2,120);
+  else if (c=='down' && s.flying) s.target_alt=Math.max(s.target_alt-2,1);
+  else if (c=='yaw_l') s.heading=(s.heading+345)%360;
+  else if (c=='yaw_r') s.heading=(s.heading+15)%360;
+  else if (c=='speed') { s.speed=+v; say('السرعة = '+v+' م/ث'); }
+  else if (c=='home') { s.x=s.y=0; say('العودة للنقطة الأساسية'); }
+  else if (c=='stop') { s.flying=s.armed=false; s.alt=s.target_alt=0; say('!!! إيقاف طوارئ !!!'); }
+}
+setInterval(function(){
+  if (online || !sim.flying) return;
+  sim.alt += (sim.target_alt-sim.alt)*0.2; sim.battery=Math.max(0,sim.battery-0.05);
+  if (sim.target_alt==0 && sim.alt<0.1) { sim.alt=0; sim.flying=false; sim.log.push('تم الهبوط'); }
+}, 200);
+
+function cmd(c, v) {
+  if (!online) { simCmd(c, v); render(sim); return; }
+  fetch(API+'/cmd?c='+c+(v?'&v='+v:'')).then(function(r){return r.json();}).then(render);
+}
+
+function poll() {
+  fetch(API+'/status').then(function(r){return r.json();})
+    .then(function(d){ online=true; document.getElementById('mode').innerHTML='<b>متصل بالدرون</b>'; render(d); })
+    .catch(function(){ online=false; document.getElementById('mode').innerHTML='<b>غير متصل — محاكاة</b>'; render(sim); });
+}
+setInterval(poll, 500); poll();
+
+var trail = [];
+function render(d) {
+  function $(id){ return document.getElementById(id); }
+  $('s_armed').innerHTML = d.armed ? '<span class="green">يعمل</span>' : '<span class="red">متوقف</span>';
+  $('s_flying').innerHTML = d.flying ? '<span class="green">في الجو</span>' : 'على الأرض';
+  $('s_alt').innerHTML = d.alt.toFixed(1)+' م';
+  $('s_pos').innerHTML = d.x.toFixed(1)+' / '+d.y.toFixed(1);
+  $('s_head').innerHTML = d.heading+'&deg;';
+  $('s_speed').innerHTML = d.speed+' م/ث';
+  $('s_bat').innerHTML = d.battery.toFixed(0)+'%';
+  $('batbar').style.width = d.battery+'%';
+  $('log').innerHTML = d.log.slice().reverse().join('<br>');
+
+  // الرادار
+  var cv=$('radar'), g=cv.getContext('2d'), cx=130, cy=100, k=3;
+  g.fillStyle='#0b2a0b'; g.fillRect(0,0,260,200);
+  g.strokeStyle='#1d5a1d';
+  for (var r=30;r<=90;r+=30){ g.beginPath(); g.arc(cx,cy,r,0,7); g.stroke(); }
+  g.beginPath(); g.moveTo(0,cy); g.lineTo(260,cy); g.moveTo(cx,0); g.lineTo(cx,200); g.stroke();
+  var px=cx+d.x*k, py=cy-d.y*k;
+  trail.push([px,py]); if (trail.length>60) trail.shift();
+  g.fillStyle='#2a7a2a'; trail.forEach(function(p){ g.fillRect(p[0],p[1],2,2); });
+  g.save(); g.translate(px,py); g.rotate(d.heading*Math.PI/180);
+  g.fillStyle = d.flying ? '#3f3' : '#aaa';
+  g.beginPath(); g.moveTo(0,-8); g.lineTo(6,6); g.lineTo(-6,6); g.closePath(); g.fill(); g.restore();
+  g.fillStyle='#3f3'; g.font='10px Courier New'; g.fillText('N',cx-3,10); g.fillText('H',cx+3,cy-3);
+}
+
+document.onkeydown = function(e){
+  var m = {w:'forward',s:'back',a:'left',d:'right',q:'yaw_l',e:'yaw_r',r:'up',f:'down',' ':'stop'}[e.key.toLowerCase()];
+  if (m) { e.preventDefault(); cmd(m); }
+};
+</script>
+</body>
+</html>
